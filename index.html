@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Adaptive Scheduling — AiTrainingPlan · Live Demo</title>
+  <meta name="description" content="Mission-control demo of adaptive scheduling: miss a workout and the weekly running plan reshuffles automatically, with every change explained.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@500;600;700;800&family=Encode+Sans+Condensed:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23010F31'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%23FF6B35'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <a href="#demo" class="skip-link">Skip to demo</a>
+
+  <header class="tl-nav">
+    <div class="tl-nav__inner">
+      <a href="#" class="tl-brand" aria-label="AiTrainingPlan home">
+        <svg width="110" height="30" viewBox="0 0 110 30" fill="none" aria-hidden="true">
+          <rect x="1" y="1" width="26" height="26" rx="6" fill="#FF6B35"/>
+          <circle cx="14" cy="14" r="4.5" fill="#010F31"/>
+          <text x="36" y="20" font-family="Encode Sans Condensed, sans-serif" font-size="18" font-weight="600" fill="#FFFFFF">AiTrainingPlan</text>
+        </svg>
+      </a>
+
+      <span class="tl-nav__phase">
+        <span class="tl-nav__dot"></span> Week 6 · Build
+      </span>
+
+      <nav class="tl-nav__links" aria-label="Main navigation">
+        <a href="#demo" class="tl-nav__link">Features</a>
+        <a href="#demo" class="tl-nav__link">Why ATP?</a>
+        <a href="#demo" class="tl-nav__link">Guides</a>
+      </nav>
+
+      <div class="tl-nav__actions">
+        <span class="tl-countdown" title="Days to race day">
+          <span class="tl-countdown__num">38</span> days to race
+        </span>
+        <a href="#demo" class="tl-btn">Join Waitlist</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Hero: statement + live telemetry strip -->
+    <section class="hero">
+      <div class="hero__inner">
+        <span class="badge">Now in Beta · Interactive demo</span>
+        <h1 class="hero__headline">
+          Miss a session.<br>
+          <span class="coral">The plan rebuilds.</span>
+        </h1>
+        <p class="hero__sub">
+          No rigid weeks. Life happens — key workouts move, rest days shift,
+          and every change is explained. Try it below. No account.
+        </p>
+
+        <div class="tele">
+          <div class="tele__item">
+            <span class="tele__num">270</span>
+            <span class="tele__label">min weekly load</span>
+          </div>
+          <div class="tele__item">
+            <span class="tele__num">5</span>
+            <span class="tele__label">sessions</span>
+          </div>
+          <div class="tele__item">
+            <span class="tele__num">+12</span>
+            <span class="tele__label">training form</span>
+          </div>
+          <div class="tele__item">
+            <span class="tele__num">W6</span>
+            <span class="tele__label">build phase</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- App: mission-control dashboard -->
+    <section class="app" id="demo" aria-label="Adaptive scheduling demo">
+      <div class="app__grid demo__grid">
+
+        <div class="panel panel--plan plan-panel">
+          <div class="panel__head">
+            <div>
+              <span class="eyebrow">Training plan · Week 6 · Build</span>
+              <h2 class="panel__title">The week ahead</h2>
+            </div>
+            <div class="stats" id="week-stats" aria-label="Weekly plan stats"></div>
+          </div>
+
+          <p class="demo__hint" id="plan-hint">
+            <strong>Try it:</strong> hit <em>Mark as missed</em> on any workout and the coach
+            rebalances the week — quality sessions get rescued, rest days move.
+          </p>
+
+          <div class="trend" id="trend">
+            <div class="trend__head">
+              <span class="eyebrow">Performance stride · next 10 days</span>
+              <div class="trend__readout" id="trend-readout"></div>
+            </div>
+            <svg class="trend__svg" id="trend-svg" viewBox="0 0 620 104" preserveAspectRatio="none" aria-hidden="true">
+              <path class="trend__line trend__line--planned" id="trend-planned"></path>
+              <path class="trend__line trend__line--adapted" id="trend-adapted"></path>
+            </svg>
+            <div class="trend__legend">
+              <span><i class="lg--planned"></i> Planned form</span>
+              <span id="trend-legend-adapted"><i class="lg--adapted"></i> With Wed missed</span>
+            </div>
+          </div>
+
+          <div class="week-wrap" id="week-wrap">
+            <svg class="reshuffle-arrow" id="reshuffle-arrow" aria-hidden="true"></svg>
+            <div class="week" id="plan-week" aria-label="Weekly training plan"></div>
+          </div>
+
+          <div class="panel__foot">
+            <button type="button" class="ptp-btn ptp-btn--ghost" id="btn-reset">Reset demo</button>
+            <span class="panel__status" aria-hidden="true">
+              <span class="panel__status-dot"></span> Auto-sync paused · sample athlete
+            </span>
+          </div>
+        </div>
+
+        <aside class="panel panel--coach" aria-live="polite">
+          <div class="panel__head">
+            <span class="eyebrow eyebrow--coral">Coach · Decision log</span>
+            <h3 class="panel__title" id="adapt-title">Try it</h3>
+          </div>
+          <ul class="entrylist" id="adapt-list"></ul>
+          <div class="panel__divider"></div>
+          <p class="entryfoot" id="adapt-stats"></p>
+          <div class="panel__seal" aria-hidden="true">
+            <svg viewBox="0 0 96 96" width="96" height="96">
+              <circle cx="48" cy="48" r="44" fill="none" stroke="rgba(255,107,53,0.35)" stroke-width="2" stroke-dasharray="4 6"/>
+              <circle cx="48" cy="48" r="20" fill="none" stroke="rgba(49,119,255,0.8)" stroke-width="2"/>
+              <circle cx="48" cy="48" r="3" fill="#FF6B35"/>
+            </svg>
+          </div>
+        </aside>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p class="footer__brand">AiTrainingPlan — the world's most data-driven AI training coach.</p>
+    <p class="footer__note">
+      Static demo of deterministic adaptive scheduling. Not medical advice; no performance
+      or health guarantees.
+    </p>
+  </footer>
+
+  <script src="lib/plan.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
