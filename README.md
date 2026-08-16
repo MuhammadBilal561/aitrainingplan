@@ -1,39 +1,81 @@
-# Missed Workout — Adaptive Plan Demo
+# aitrainingplan.app — Adaptive Training Demo
 
-A small interactive feature built for **aitrainingplan.app** as part of the We The Flywheel Agentic Engineer assessment.
+Interactive training-plan demo built for the We The Flywheel Agentic Engineer assessment.
 
-## Overview
+## What I built
 
-The demo shows how a training plan can adapt when a scheduled workout is missed.
+The main feature is a **"Missed a Workout?"** interaction that demonstrates how a training plan can adapt when a workout is missed.
 
-Users can:
+The demo includes:
 
-- View a sample weekly plan
-- Mark a workout as missed
-- See the remaining schedule adjust
-- Understand why the plan changed
+- A 7-day running plan
+- Easy, key, and rest sessions
+- Missed-workout adaptation
+- Rescheduling of key sessions to a later rest day when possible
+- Fallback behavior when no suitable rest day exists
+- Next-week carry-over when a session cannot be rescheduled
+- Missed easy-session handling
+- Missed rest-day handling
+- Clear explanations of how the plan changed
 
-The adaptation is intentionally deterministic and serves as a product demonstration, not a real training algorithm.
+## Adaptation logic
 
-## Approach
+The adaptation engine is intentionally deterministic.
 
-The feature was kept deliberately small and self-contained so it could be designed, built, tested, and deployed within the assessment time.
+It does not pretend to be an AI training model. Instead, it applies explicit rules to demonstrate the product idea of an adaptive training plan.
 
-It reuses the existing product's visual language rather than introducing a separate design system.
+Examples:
 
-## Tech
+- A missed key session moves to the next suitable rest day.
+- If there is no suitable rest day, it falls back to an easier available day.
+- If no later slot exists, the session is carried into the following week.
+- A missed easy session becomes rest.
+- A missed rest day does not change the plan.
 
-- React / existing project stack
-- Local state
-- Existing components and styling
-- No backend or database
+## UI
 
-## Assessment
+The original 7-day layout was too compressed at narrower widths, so the interface was refined during development.
 
-Built for the **We The Flywheel — Agentic Engineer (Entry-Level)** assessment.
+The final UI includes:
 
-AI was used as an engineering collaborator, while the product direction, scope, implementation review, and testing were handled manually.
+- Responsive weekly plan layout
+- Equal-height workout cards
+- Clear session-type styling
+- Visible missed/rescheduled states
+- Interval strips for structured sessions
+- Adaptive performance-curve visualization
+- Weekly load coverage indicator
+- Responsive behavior across desktop and mobile sizes
+- Reduced visual crowding and shadow overlap
 
-## Disclaimer
+## Testing
 
-This is a product demo and should not be treated as professional or medical training advice.
+The plan logic is covered by unit tests for:
+
+- Weekly plan generation
+- Weekly statistics
+- Key-session rescheduling
+- Fallback behavior
+- Next-week carry-over
+- Easy-session handling
+- Rest-day handling
+- Invalid day handling
+- Deterministic adaptation
+
+The browser/E2E tests cover:
+
+- App startup
+- Seven-day rendering
+- Initial plan state
+- Workout interactions
+- Adapted-plan behavior
+- Performance visualization
+- Interval rendering
+- Weekly load indicator
+- Responsive layout behavior
+
+Current test run:
+
+```text
+12 unit tests passing
+39 E2E checks passing
